@@ -31,6 +31,7 @@ int main(void)
 						   0.0f,  0.5f,
 						   0.5f, -0.5f };
 	unsigned int buffer;
+	char a;
 
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);                                  // GL_ARRAY_BUFFER is simply saying that this buffer is an array
