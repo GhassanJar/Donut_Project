@@ -8,6 +8,8 @@ int main(void)
 {
 	GLFWwindow* window;
 
+	cout << " fuck git fucking bloody";
+
 	//initials
 	if (!glfwInit())
 		return -1;
