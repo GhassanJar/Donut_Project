@@ -1,8 +1,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <math.h>
 
-
+constexpr auto PI = =3.1415926535;;
 using namespace std;
 
 static unsigned int CompileShader(unsigned int type, const string& source)
@@ -59,7 +60,7 @@ int main(void)
 
 
 	//window
-	window = glfwCreateWindow(900, 800, "Donut", NULL, NULL);
+	window = glfwCreateWindow(900, 900, "Donut", NULL, NULL);
 
 	if (!window)
 	{
@@ -73,10 +74,9 @@ int main(void)
 
 	if (glewInit() != GLEW_OK)
 		cout << "Error\n";
-	float positions[8] = { -0.5f, -0.5f,                                     //this is practicaly a buffer because it is array of contiguous memory 
-						   0.5f,  0.5f,
-						   -0.5f, 0.5f,
-						   0.5f, -0.5f };
+	float positions[][] = {};
+	float rotations[4] = {cos(2*PI/5),sin(2*PI/5),
+						-sin(2*PI/5),cos(2*PI/5)};
 	unsigned int buffer;
 
 	glGenBuffers(1, &buffer);
