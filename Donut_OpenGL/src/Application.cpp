@@ -1,13 +1,15 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
-static unsigned int CompileShader(const string& source, unsigned int type)
+static unsigned int CompileShader(unsigned int type, const string& source)
 {
 	unsigned int id = glCreateShader(GL_VERTEX_SHADER);
 	const char* src = source.c_str();
+	glShaderSource(id, 1, &src, nullptr);
 }
 
 static int CreateShader(const string& vertexShader, const string& fragmentShader)
