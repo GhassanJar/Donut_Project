@@ -1,13 +1,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <math.h>
 
-
+constexpr auto PI = =3.1415926535;;
 using namespace std;
 
 static unsigned int CompileShader(unsigned int type, const string& source)
 {
-	unsigned int id = glCreateShader(GL_VERTEX_SHADER);
+	unsigned int id = glCreateShader(type);
 	const char* src = &source[0];
 	glShaderSource(id, 1, &src, nullptr);
 	glCompileShader(id);
@@ -59,7 +60,7 @@ int main(void)
 
 
 	//window
-	window = glfwCreateWindow(900, 800, "Donut", NULL, NULL);
+	window = glfwCreateWindow(900, 900, "Donut", NULL, NULL);
 
 	if (!window)
 	{
@@ -69,41 +70,44 @@ int main(void)
 
 	//context menu
 	glfwMakeContextCurrent(window);
+	glewInit();
 
-	float positions[6] = { -0.5f, -0.5f,                                     //this is practicaly a buffer because it is array of contiguous memory 
-						   0.0f,  0.5f,
-						   0.5f, -0.5f };
+	if (glewInit() != GLEW_OK)
+		cout << "Error\n";
+	float positions[][] = {};
+	float rotations[4] = {cos(2*PI/5),sin(2*PI/5),
+						-sin(2*PI/5),cos(2*PI/5)};
 	unsigned int buffer;
-	char a;
 
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);                                  // GL_ARRAY_BUFFER is simply saying that this buffer is an array
-	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);//we can use sizeof(positions) but it's more practical this way
+	glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), positions, GL_STATIC_DRAW);//we can use sizeof(positions) but it's more practical this way
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
 	string vertexShader =
-		"@version 330 core "
+		"#version 330 core "
 		"\n"
-		"layout(location = 0) in vec4 position;"
+		"layout(location = 0) in vec4 position;\n"
 		"\n"
 		"void main()"
 		"{\n"
 		"	gl_Position = position;\n"
 		"}\n";
+
 	string fragmentShader =
-		"@version 330 core "
+		"#version 330 core "
 		"\n"
 		"layout(location = 0) out vec4 color;"
 		"\n"
 		"void main()"
 		"{\n"
-		"	gl_Position = position;\n"
+		"	color = vec4(1.0, 0.0, 0.0, 1.0);\n"
 		"}\n";
 
-	unsigned int shader = CreateShader();
-
+	unsigned int shader = CreateShader(vertexShader, fragmentShader);
+	glUseProgram(shader);
 
 	//loop
 	while (!glfwWindowShouldClose(window))
@@ -111,7 +115,7 @@ int main(void)
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_POLYGON, 0, 4);
 		/*glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, positions);*/
 
 		/* Swap front and back buffers */
