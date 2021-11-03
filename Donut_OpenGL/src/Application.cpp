@@ -3,7 +3,7 @@
 #include <iostream>
 #include <math.h>
 
-constexpr auto PI = =3.1415926535;;
+constexpr auto PI = = 3.1415926535;;
 using namespace std;
 
 static unsigned int CompileShader(unsigned int type, const string& source)
@@ -71,12 +71,15 @@ int main(void)
 	//context menu
 	glfwMakeContextCurrent(window);
 	glewInit();
-
-	if (glewInit() != GLEW_OK)
-		cout << "Error\n";
-	float positions[][] = {};
-	float rotations[4] = {cos(2*PI/5),sin(2*PI/5),
-						-sin(2*PI/5),cos(2*PI/5)};
+	const int rot_angle = 2 * PI / 5;
+		if (glewInit() != GLEW_OK)
+			cout << "Error\n";
+	float positions[4][2] = {	{0,0}, 
+								{cos(rot_angle),sin(rot_angle)},
+								{cos(rot_angle) + 2,sin(rot_angle)},
+								{1,0} };
+	float rotations[2][2] = { {cos(rot_angle),sin(rot_angle)},
+							{-sin(rot_angle),cos(rot_angle)} };
 	unsigned int buffer;
 
 	glGenBuffers(1, &buffer);
